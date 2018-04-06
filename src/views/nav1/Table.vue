@@ -1,0 +1,87 @@
+<template>
+  <section>
+    <!--查询条件-->
+    <el-col :span="24" class="toolbar" style="padding-bottom:0px;">
+      <el-form :inline="true" :model="filters">
+        <el-form-item label="姓名">
+          <el-input v-model="filters.name" placeholder="姓名"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary" @click="getUsers">查询</el-button>
+        </el-form-item>
+      </el-form>
+    </el-col>
+
+    <!--列表-->
+    <el-table :data="users" highlight-current-row v-loading="listLoading" 
+    @selection-change="selsChange" style="width: 100%"
+    >
+      <el-table-column type="selection" width="55"></el-table-column>
+      <el-table-column type="index" width="60"></el-table-column>
+      <el-table-column prop="name" label="姓名" width="120" sortable></el-table-column>
+      	<el-table-column prop="sex" label="性别" width="100" :formatter="formatSex" sortable>
+			</el-table-column>
+			<el-table-column prop="age" label="年龄" width="100" sortable>
+			</el-table-column>
+			<el-table-column prop="birth" label="生日" width="120" sortable>
+			</el-table-column>
+			<el-table-column prop="addr" label="地址" min-width="180" sortable>
+			</el-table-column>
+      <el-table-column label="操作" width="150"></el-table-column>
+    </el-table>
+
+    <!--工具条/分页-->
+    <el-col :span="24" class="toolbar">
+      <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange"
+      :page-size="20" :total="total" style="float:right;"></el-pagination>
+    </el-col>
+  </section>
+</template>
+
+<script>
+  // import util from '../../common/js/util'
+
+  import {getUserListPage} from '../../api/api';
+  export default{
+    data(){
+      return{
+        filters:{
+          name: ''
+        },
+        users:[],
+        total:0,
+        page:1,
+        listLoading: false,
+        sels:[]
+      }
+    },
+    methods:{
+      formatSex(row, column){
+        return row.sex==1?'男':row.sex == 0 ? '女':'未知';
+      },
+      handleCurrentChange(val){
+        this.page = val;
+        this.getUsers();
+      },
+      getUsers(){
+        let para = {
+          page:this.page,
+          name:this.filters.name
+        };
+        this.listLoading = false;
+        
+        getUserListPage(para).then((res) => {
+          this.total = res.data.total;
+          this.users = res.data.users;
+          this.listLoading = false;
+        });
+      },
+      selsChange(sels){
+        this.sels = sels;
+      }
+    },
+    mounted(){
+      this.getUsers();
+    }
+  }
+</script>

@@ -8,6 +8,8 @@ import Page5 from './views/nav2/Page5.vue'
 import Page6 from './views/nav3/Page6.vue'
 import AssertData from './views/LingHuData/AssertData.vue'
 import User from './views/nav1/user.vue'
+import Table from './views/nav1/Table.vue'
+
 let routes = [
   {
     path: '/login',
@@ -46,6 +48,11 @@ let routes = [
       path:'/page2',
       component:Page2,
       name:'页面2'
+    },
+    {
+      path:'/table',
+      component:Table,
+      name:'Table'
     },
     {
       path:'/user',
