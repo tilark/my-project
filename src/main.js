@@ -5,14 +5,14 @@ import 'element-ui/lib/theme-chalk/index.css'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 
-import routers from './router/routers'
+import routes from './routes'
 Vue.config.productionTip = false
 
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
 const router = new VueRouter({
-  routers
+  routes
 })
 
 new Vue({
