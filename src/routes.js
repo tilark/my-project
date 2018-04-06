@@ -17,11 +17,7 @@ let routes = [
     component:NotFound,
     hidden: true
   },
-  {
-    path:'/home',
-    component:Home,
-    name:'home' 
-  },
+ 
   {
     path:'/',
     component:Home,
