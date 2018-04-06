@@ -33,7 +33,7 @@
         </template>
       </el-menu>
     </el-col>
-    <el-col>
+    <el-col :span="24">
     <div>
         <span>这是首页</span>
         <transition name="fade" mode="out-in"><router-view></router-view></transition>

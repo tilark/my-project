@@ -6,7 +6,8 @@ import Page2 from './views/nav1/Page2.vue'
 import Page4 from './views/nav2/Page4.vue'
 import Page5 from './views/nav2/Page5.vue'
 import Page6 from './views/nav3/Page6.vue'
-
+import AssertData from './views/LingHuData/AssertData.vue'
+import User from './views/nav1/user.vue'
 let routes = [
   {
     path: '/login',
@@ -19,7 +20,40 @@ let routes = [
     component:NotFound,
     hidden: true
   },
- 
+ {
+  path:'/',
+  component:Home,
+  name:'灵狐系统',
+  children:[
+    {
+      path:'/assertdata',
+      component:AssertData,
+      name:'灵狐数据'
+    }
+  ]
+ },
+ {
+   path:'/',
+   component:Home,
+   name:'导航一',
+   children:[
+    {
+      path:'/page1',
+      component:Page1,
+      name:'页面1'
+    },
+    {
+      path:'/page2',
+      component:Page2,
+      name:'页面2'
+    },
+    {
+      path:'/user',
+      component:User,
+      name:'测试User'
+    }
+   ]
+ },
   {
     path:'/',
     component:Home,
@@ -33,19 +67,7 @@ let routes = [
       {
         path:'/page5', 
         component:Page5, 
-        name:'page5',
-        children:[
-          {
-            path:'/page1',
-            component:Page1,
-            name:'页面1'
-          },
-          {
-            path:'/page2',
-            component:Page2,
-            name:'页面2'
-          }
-        ]
+        name:'page5'       
       }
     ]
   },
