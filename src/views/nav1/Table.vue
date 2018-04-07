@@ -17,7 +17,7 @@
     @selection-change="selsChange" style="width: 100%"
     >
       <el-table-column type="selection" width="55"></el-table-column>
-      <el-table-column type="index" width="60"></el-table-column>
+      <el-table-column type="index" :index="indexMethod" width="60"></el-table-column>
       <el-table-column prop="name" label="姓名" width="120" sortable></el-table-column>
       	<el-table-column prop="sex" label="性别" width="100" :formatter="formatSex" sortable>
 			</el-table-column>
@@ -33,7 +33,7 @@
     <!--工具条/分页-->
     <el-col :span="24" class="toolbar">
       <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange"
-      :page-size="20" :total="total" style="float:right;"></el-pagination>
+      :page-size="pageSize" :total="total" style="float:right;"></el-pagination>
     </el-col>
   </section>
 </template>
@@ -51,6 +51,7 @@
         users:[],
         total:0,
         page:1,
+        pageSize:20,
         listLoading: false,
         sels:[]
       }
@@ -78,6 +79,9 @@
       },
       selsChange(sels){
         this.sels = sels;
+      },
+      indexMethod(index){
+        return (this.page-1)*this.pageSize+index+1;
       }
     },
     mounted(){
