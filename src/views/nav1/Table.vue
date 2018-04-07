@@ -31,13 +31,14 @@
       <el-table-column label="操作" width="150">
         <template  slot-scope="props">
           <el-button type="primary" size="small" @click="handleEdit(props.$index, props.row)">编辑</el-button>
-          
+          <el-button type="danger" size="small" @click="handleDel(props.$index, props.row)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
 
     <!--工具条/分页-->
     <el-col :span="24" class="toolbar">
+      <el-button type="danger" @click="batchRemove" :disabled="this.sels.length===0">批量删除</el-button>
       <el-pagination layout="prev, pager, next" @current-change="handleCurrentChange"
       :page-size="pageSize" :total="total" style="float:right;"></el-pagination>
     </el-col>
@@ -102,7 +103,7 @@
 <script>
   import util from '../../common/js/util'
 
-  import {getUserListPage, editUser, addUser} from '../../api/api';
+  import {getUserListPage,removeUser,batchRemoveUser, editUser, addUser} from '../../api/api';
   export default{
     data(){
       return{
@@ -171,7 +172,7 @@
           this.listLoading = false;
         });
       },
-     
+    
       //显示编辑界面
       handleEdit(index, row){
         console.log("enter handleEdit");
@@ -235,6 +236,48 @@
       selsChange(sels){
         this.sels = sels;
       },
+
+      //删除
+      handleDel(index, row){
+        this.$confirm('确认删除该记录吗？','提示',{
+          type:'warning'
+        }).then(() =>{
+          // console.log('row is ' + row.id + row.name);
+          // console.log(`index is ${index}`);
+          this.listLoading = true;
+          let para = {id:row.id};
+          removeUser(para).then((res)=>{
+            this.listLoading = false;
+            this.$message({
+              message:'删除成功',
+              type:'success'
+            });
+            this.getUsers();
+          });
+        }).catch(() => {
+
+        });
+      },
+       //批量删除
+     batchRemove(){
+       var ids = this.sels.map(item => item.id).toString();
+       this.$confirm('确认删除选中记录吗？','提示',{
+         type:'warning'
+       }).then(() =>{
+         this.listLoading = true;
+         let para = {ids:ids};
+         batchRemoveUser(para).then((res) =>{
+           this.listLoading = false;
+           this.$message({
+             message:'删除成功',
+             type:'success'
+           });
+           this.getUsers();
+         });
+       }).catch(() => {
+
+       });
+     },
       indexMethod(index){
         return (this.page-1)*this.pageSize+index+1;
       }

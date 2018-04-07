@@ -96,5 +96,31 @@ export default{
         }, 500);
       });
     });
+    //删除用户
+    mock.onGet('/user/remove').reply(config =>{
+      let {id} = config.params;
+      _Users = _Users.filter(u => u.id !== id);
+      return new Promise((resolve, reject) =>{
+        setTimeout(() => {
+          resolve([200,{
+            code:200,
+            msg:'删除成功'
+          }]);
+        }, 500);
+      });
+    });
+    //批量删除
+    mock.onGet('/user/batchremove').reply(config =>{
+      let {ids} = config.params;
+      ids = ids.split(',');
+      _Users = _Users.filter(u => !ids.includes(u.id));
+      return new Promise((resolve, reject) => {
+        setTimeout(() => {
+          resolve([200, {
+            code:200, msg:'删除成功'
+          }]);
+        }, 500);
+      });
+    })
   }
 }
