@@ -53,6 +53,28 @@ export default{
           }]);
         }, 1000);
       });
+    });
+    //编辑用户
+    mock.onGet('/user/edit').reply(config => {
+      let {id, name, addr, age, birth, sex} = config.params;
+      _Users.some(u =>{
+        if(u.id === id){
+          u.name = name;
+          u.addr = addr;
+          u.age = age;
+          u.birth = birth;
+          u.sex = sex;
+          return true;
+        }
+      });
+      return new Promise((resolve, reject) =>{
+        setTimeout(() => {
+          resolve([200, {
+            code:200,
+            msg:'编辑成功'
+          }]);
+        }, 500);
+      });
     })
   }
 }
