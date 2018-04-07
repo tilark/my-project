@@ -75,6 +75,26 @@ export default{
           }]);
         }, 500);
       });
-    })
+    });
+
+    //新增用户
+    mock.onGet('/user/add').reply(config => {
+      let {name,addr,age, birth, sex } = config.params;
+      _Users.push({
+        name:name,
+        addr:addr,
+        age:age,
+        birth:birth,
+        sex:sex
+      });
+      return new Promise((resolve, reject) =>{
+        setTimeout(() => {
+          resolve([200, {
+            code:200,
+            msg:'新增成功'
+          }]);
+        }, 500);
+      });
+    });
   }
 }
